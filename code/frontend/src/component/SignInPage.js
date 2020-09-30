@@ -10,15 +10,16 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import GoogleLogin from 'react-google-login'
 
 function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+                Play Tech
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -26,6 +27,9 @@ function Copyright() {
     );
 }
 
+function GoogleSignInSuccess(response) {
+    console.log(response);
+}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,14 +53,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles();
-
     return (
         <Container component="main" maxWidth="xs">
-            <CssBaseline />
+            <CssBaseline/>
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
+                    <LockOutlinedIcon/>
                 </Avatar>
+
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
@@ -84,7 +88,7 @@ export default function SignIn() {
                         autoComplete="current-password"
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
+                        control={<Checkbox value="remember" color="primary"/>}
                         label="Remember me"
                     />
                     <Button
@@ -96,6 +100,20 @@ export default function SignIn() {
                     >
                         Sign In
                     </Button>
+
+                    <GoogleLogin
+                        clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
+                        buttonText="Sign in with Google"
+                        onSuccess={ () => {
+                            window.location.href = "/homepage";
+                        }}
+                        onFailure={ () => {
+                            alert("Login Failed !");
+                        }}
+                        cookiePolicy={'single_host_origin'}
+                        style={{  float: "none"}}
+                    />
+
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
@@ -111,7 +129,7 @@ export default function SignIn() {
                 </form>
             </div>
             <Box mt={8}>
-                <Copyright />
+                <Copyright/>
             </Box>
         </Container>
     );

@@ -6,7 +6,7 @@ const passport = require('passport');
 const cookieSession = require('cookie-session')
 require('./playtech-credentials');
 
-app.use(cors())
+app.use(cors());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
