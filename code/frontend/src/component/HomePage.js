@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import { GoogleLogout } from 'react-google-login';
+import ImagePicker from 'react-image-picker'
 
 function Copyright() {
     return (
@@ -60,11 +61,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const cards = [1, 2, 3];
+
+const profile = JSON.parse(localStorage.getItem('Profile'));
 
 export default function Album() {
     const classes = useStyles();
-
     return (
         <React.Fragment>
             <CssBaseline />
@@ -73,15 +75,20 @@ export default function Album() {
                     <CameraIcon className={classes.icon} />
                     <Typography variant="h6" color="inherit" noWrap>
                         Play Tech Gallery
+                    </Typography>
+
+                    <div style={{
+                        display: 'flex', justifyContent: 'right', alignSelf: 'flex-end'
+                    }}>
                         <GoogleLogout
                             clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
                             buttonText="Logout"
                             onLogoutSuccess={() => {
+                                localStorage.clear();
                                 window.location.href = "/";
                             }}
-                        >
-                        </GoogleLogout>
-                    </Typography>
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
             <main>
@@ -89,17 +96,19 @@ export default function Album() {
                 <div className={classes.heroContent}>
                     <Container maxWidth="sm">
                         <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                            Album layout
+                            Hi {profile.givenName} !
                         </Typography>
                         <Typography variant="h5" align="center" color="textSecondary" paragraph>
-                            Something short and leading about the collection below—its contents, the creator, etc.
-                            Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-                            entirely.
+                            Please choose a Photo to upload to Play Tech gallery
                         </Typography>
                         <div className={classes.heroButtons}>
                             <Grid container spacing={2} justify="center">
                                 <Grid item>
-                                    <Button variant="contained" color="primary">
+                                    <input type="file" className="btn btn-info"
+                                           style={{marginLeft: "30px"}} accept="image/*"/>
+                                    <Button variant="contained" color="primary" onClick={() => {
+                                        const token = localStorage.getItem('Token');
+                                    }}>
                                         Upload a Photo
                                     </Button>
                                 </Grid>
@@ -143,10 +152,7 @@ export default function Album() {
             {/* Footer */}
             <footer className={classes.footer}>
                 <Typography variant="h6" align="center" gutterBottom>
-                    Footer
-                </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Something here to give the footer a purpose!
+                    Play Tech
                 </Typography>
                 <Copyright />
             </footer>

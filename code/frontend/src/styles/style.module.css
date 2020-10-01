@@ -1,0 +1,10 @@
+.paper {
+    display: flex;
+    flexDirection: column;
+    alignItems: center;
+}
+
+/*.avatar {*/
+/*         margin: 1;*/
+/*         backgroundColor: theme.palette.secondary.main*/
+/*},*/
