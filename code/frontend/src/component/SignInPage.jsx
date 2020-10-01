@@ -14,7 +14,7 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import GoogleLogin from "react-google-login";
 
-class SignInPage2 extends React.Component {
+class SignInPage extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -137,4 +137,4 @@ class SignInPage2 extends React.Component {
     };
 }
 
-export default withAlert()(SignInPage2)
+export default withAlert()(SignInPage)

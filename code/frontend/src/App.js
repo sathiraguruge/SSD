@@ -3,8 +3,8 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import AlertTemplate from 'react-alert-template-basic'
 import {Provider as AlertProvider} from 'react-alert'
 
-import SignInPage2 from './component/SignInPage2';
-import HomePage2 from './component/HomePage2';
+import SignInPage from './component/SignInPage';
+import HomePage from './component/HomePage';
 
 class App extends Component {
     render() {
@@ -12,14 +12,13 @@ class App extends Component {
             <Router>
                 <div>
                     <AlertProvider template={AlertTemplate}>
-                        <Route exact path="/" component={SignInPage2}/>
-                        <Route exact path="/homepage" component={HomePage2}/>
+                        <Route exact path="/" component={SignInPage}/>
+                        <Route exact path="/homepage" component={HomePage}/>
                     </AlertProvider>
                 </div>
             </Router>
         );
     }
 }
-
 
 export default App;
