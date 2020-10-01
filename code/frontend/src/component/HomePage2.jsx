@@ -8,27 +8,23 @@ import {GoogleLogout} from "react-google-login";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardMedia from "@material-ui/core/CardMedia";
-import CardContent from "@material-ui/core/CardContent";
-import CardActions from "@material-ui/core/CardActions";
-import Link from "@material-ui/core/Link";
+import GoogleService from '../service/GoogleService'
+import axios from "axios";
 
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            oldPassword: '',
-            newPassword1: '',
-            visibleModal: false,
-            visibleProfileModal: false,
             image: null,
-            url: '',
-            progress: 0,
-            barVisibleFlag: false
+            imagePreviewUrl: null
         };
         this.onChange = this.onChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleUpload = this.handleUpload.bind(this);
+        this.handleImageChange = this.handleImageChange.bind(this);
+
+
+        this.googleService = new GoogleService();
     }
 
     onChange(e) {
@@ -42,6 +38,59 @@ export default class HomePage extends React.Component {
             image: URL.createObjectURL(e.target.files[0])
         })
     };
+
+    handleImageChange(e) {
+        e.preventDefault();
+
+        let reader = new FileReader();
+        let file = e.target.files[0];
+
+        reader.onloadend = () => {
+            this.setState({
+                image: file,
+                imagePreviewUrl: reader.result
+            });
+        }
+
+        reader.readAsDataURL(file)
+    }
+
+
+
+    handleUpload(e) {
+        const {image} = this.state;
+        const token = localStorage.getItem('Token');
+        const token2 = JSON.parse(JSON.stringify(token));
+
+        // JSON.parse(localStorage.getItem('Token'));
+
+        // this.googleService.uploadFile(image).then((res) => {
+        //     console.log(res)
+        // }).catch(err => {
+        //     console.log(err)
+        // })
+
+
+        console.log(token2)
+
+        const h = {}; //headers
+        let data = new FormData();
+        data.append('token', token);
+        data.append('file', this.state.image);
+        h.Accept = 'application/json'; //if you expect JSON response
+
+        fetch('http://localhost:3000/fileUpload', {
+            method: 'POST',
+            headers: h,
+            body: data
+        }).then(response => {
+                console.log(response)
+        }).catch(err => {
+            console.log(err)
+        });
+
+    };
+
 
     render() {
         const profile = JSON.parse(localStorage.getItem('Profile'));
@@ -61,7 +110,7 @@ export default class HomePage extends React.Component {
                             display: 'flex', justifyContent: 'right', alignSelf: 'flex-end'
                         }}>
                             <GoogleLogout
-                                clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
+                                clientId="921424005912-gto8ohqq1vkihpjsjrpvbre81efhtntd.apps.googleusercontent.com"
                                 buttonText="Logout"
                                 onLogoutSuccess={() => {
                                     localStorage.clear();
@@ -88,10 +137,10 @@ export default class HomePage extends React.Component {
                                             src={this.state.image || 'http://vlabs.iitb.ac.in/vlabs-dev/labs_local/machine_learning/labs/exp11/images/no_img.png'}
                                             alt="Uploaded images" height="300"
                                             width="400" className="profilePicture"/>
-                                        <input type="file" onChange={this.handleChange} className="btn btn-info"
+                                        <input type="file" onChange={this.handleImageChange} className="btn btn-info"
                                                style={{marginLeft: "30px"}} accept="image/*"/>
                                         <Button variant="contained" color="primary" onClick={() => {
-                                            const token = localStorage.getItem('Token');
+                                            this.handleUpload()
                                         }}>
                                             Upload a Photo
                                         </Button>

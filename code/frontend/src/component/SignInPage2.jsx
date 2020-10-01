@@ -7,13 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import GoogleLogin from "react-google-login";
 import {withAlert} from 'react-alert'
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-
+import GoogleLogin, {GoogleLogout} from "react-google-login";
 
 class SignInPage2 extends React.Component {
     constructor(props) {
@@ -84,29 +83,29 @@ class SignInPage2 extends React.Component {
                         <div style={{
                             display: 'flex', justifyContent: 'center', margin: "30px"
                         }}>
-                            <GoogleLogin
-                                clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
-                                buttonText="Sign in with Google"
-                                scope={"https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"}
-                                onSuccess={ (response) => {
-                                    localStorage.setItem('Token', JSON.stringify(response.tokenObj));
-                                    localStorage.setItem('Profile', JSON.stringify(response.profileObj));
+                        <GoogleLogin
+                            clientId="921424005912-gto8ohqq1vkihpjsjrpvbre81efhtntd.apps.googleusercontent.com"
+                            buttonText="Sign in with Google"
+                            scope={"https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"}
+                            onSuccess={ (response) => {
+                                localStorage.setItem('Token', JSON.stringify(response.tokenObj));
+                                localStorage.setItem('Profile', JSON.stringify(response.profileObj));
 
-                                    // var retrievedObject = localStorage.getItem('testObject');
-                                    //
-                                    // console.log('retrievedObject: ', JSON.parse(retrievedObject));
+                                // var retrievedObject = localStorage.getItem('testObject');
+                                //
+                                // console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
-                                    alert.info('Hello ' + response.profileObj.name, {
-                                        onClose: () => {
-                                            window.location.href = "/homepage"
-                                        }
-                                    })
-                                }}
-                                onFailure={() => {
-                                    alert.error('Login Failed !')
-                                }}
-                                cookiePolicy={'single_host_origin'}
-                            />
+                                alert.info('Hello ' + response.profileObj.name, {
+                                    onClose: () => {
+                                        window.location.href = "/homepage"
+                                    }
+                                })
+                            }}
+                            onFailure={() => {
+                                alert.error('Login Failed !')
+                            }}
+                            cookiePolicy={'single_host_origin'}
+                        />
                         </div>
 
                         <Grid container>
