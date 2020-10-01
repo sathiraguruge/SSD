@@ -12,7 +12,7 @@ import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import GoogleLogin, {GoogleLogout} from "react-google-login";
+import GoogleLogin from "react-google-login";
 
 class SignInPage2 extends React.Component {
     constructor(props) {
