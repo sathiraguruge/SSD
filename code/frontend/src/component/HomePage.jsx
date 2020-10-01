@@ -52,7 +52,9 @@ export default class HomePage extends React.Component {
 
 
     handleUpload(e) {
-        this.googleService.uploadFile(this.state.image)
+        if (this.state.image != null) {
+            this.googleService.uploadFile(this.state.image)
+        }
     };
 
     render() {
