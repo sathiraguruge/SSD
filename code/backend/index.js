@@ -12,51 +12,10 @@ const client_secret = credentials.web.client_secret;
 const redirect_uris = credentials.web.redirect_uris;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-const SCOPE = ['https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file']
-
-var corsOptions = {
-    origin: 'http://localhost:3010',
-    optionsSuccessStatus: 200 ,// For legacy browser support
-    methods: "GET, POST"
-}
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => res.send(' API Running'));
-
-app.get('/getAuthURL', (req, res) => {
-    const authUrl = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPE,
-    });
-    console.log(authUrl);
-    return res.send(authUrl);
-});
-
-app.post('/getToken', (req, res) => {
-    if (req.body.code == null) return res.status(400).send('Invalid Request');
-    oAuth2Client.getToken(req.body.code, (err, token) => {
-        if (err) {
-            console.error('Error retrieving access token', err);
-            return res.status(400).send('Error retrieving access token');
-        }
-        res.send(token);
-    });
-});
-
-app.post('/getUserInfo', (req, res) => {
-    if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-    const oauth2 = google.oauth2({ version: 'v2', auth: oAuth2Client });
-
-    oauth2.userinfo.get((err, response) => {
-        if (err) res.status(400).send(err);
-        console.log(response.data);
-        res.send(response.data);
-    })
-});
 
 app.post('/readDrive', (req, res) => {
     if (req.body.token == null) return res.status(400).send('Token not found');
@@ -87,7 +46,6 @@ app.post('/fileUpload', (req, res) => {
     form.parse(req, (err, fields, files) => {
         if (err) return res.status(400).send(err);
         const token = JSON.parse(fields.token);
-        console.log(token)
         if (token == null) return res.status(400).send('Token not found');
         oAuth2Client.setCredentials(token);
         console.log(files.file);
@@ -99,8 +57,6 @@ app.post('/fileUpload', (req, res) => {
             mimeType: files.file.type,
             body: fs.createReadStream(files.file.path),
         };
-        console.log('Test')
-
         drive.files.create(
             {
                 resource: fileMetadata,
@@ -120,32 +76,32 @@ app.post('/fileUpload', (req, res) => {
     });
 });
 
-app.post('/deleteFile/:id', (req, res) => {
-    if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-    const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-    var fileId = req.params.id;
-    drive.files.delete({ 'fileId': fileId }).then((response) => { res.send(response.data) })
-});
-
-app.post('/download/:id', (req, res) => {
-    if (req.body.token == null) return res.status(400).send('Token not found');
-    oAuth2Client.setCredentials(req.body.token);
-    const drive = google.drive({ version: 'v3', auth: oAuth2Client });
-    var fileId = req.params.id;
-    drive.files.get({ fileId: fileId, alt: 'media' }, { responseType: 'stream' },
-        function (err, response) {
-            response.data
-                .on('end', () => {
-                    console.log('Done');
-                })
-                .on('error', err => {
-                    console.log('Error', err);
-                })
-                .pipe(res);
-        });
-
-});
+// app.post('/deleteFile/:id', (req, res) => {
+//     if (req.body.token == null) return res.status(400).send('Token not found');
+//     oAuth2Client.setCredentials(req.body.token);
+//     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+//     var fileId = req.params.id;
+//     drive.files.delete({ 'fileId': fileId }).then((response) => { res.send(response.data) })
+// });
+//
+// app.post('/download/:id', (req, res) => {
+//     if (req.body.token == null) return res.status(400).send('Token not found');
+//     oAuth2Client.setCredentials(req.body.token);
+//     const drive = google.drive({ version: 'v3', auth: oAuth2Client });
+//     var fileId = req.params.id;
+//     drive.files.get({ fileId: fileId, alt: 'media' }, { responseType: 'stream' },
+//         function (err, response) {
+//             response.data
+//                 .on('end', () => {
+//                     console.log('Done');
+//                 })
+//                 .on('error', err => {
+//                     console.log('Error', err);
+//                 })
+//                 .pipe(res);
+//         });
+//
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server Started ${PORT}`));

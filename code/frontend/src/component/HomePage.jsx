@@ -9,7 +9,6 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import GoogleService from '../service/GoogleService'
-import axios from "axios";
 
 export default class HomePage extends React.Component {
     constructor(props) {
@@ -22,7 +21,6 @@ export default class HomePage extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleUpload = this.handleUpload.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
-
 
         this.googleService = new GoogleService();
     }
@@ -41,67 +39,32 @@ export default class HomePage extends React.Component {
 
     handleImageChange(e) {
         e.preventDefault();
-
         let reader = new FileReader();
         let file = e.target.files[0];
-
         reader.onloadend = () => {
             this.setState({
                 image: file,
                 imagePreviewUrl: reader.result
             });
-        }
-
+        };
         reader.readAsDataURL(file)
     }
 
 
-
     handleUpload(e) {
-        const {image} = this.state;
-        const token = localStorage.getItem('Token');
-        const token2 = JSON.parse(JSON.stringify(token));
-
-        // JSON.parse(localStorage.getItem('Token'));
-
-        // this.googleService.uploadFile(image).then((res) => {
-        //     console.log(res)
-        // }).catch(err => {
-        //     console.log(err)
-        // })
-
-
-        console.log(token2)
-
-        const h = {}; //headers
-        let data = new FormData();
-        data.append('token', token);
-        data.append('file', this.state.image);
-        h.Accept = 'application/json'; //if you expect JSON response
-
-        fetch('http://localhost:3000/fileUpload', {
-            method: 'POST',
-            headers: h,
-            body: data
-        }).then(response => {
-                console.log(response)
-        }).catch(err => {
-            console.log(err)
-        });
-
+        if (this.state.image != null) {
+            this.googleService.uploadFile(this.state.image)
+        }
     };
-
 
     render() {
         const profile = JSON.parse(localStorage.getItem('Profile'));
-        const cards = [1, 2, 3];
-
         return (
             <React.Fragment>
-                <CssBaseline />
+                <CssBaseline/>
                 <AppBar position="relative">
                     <Toolbar>
-                        <CameraIcon className="" />
+                        <CameraIcon className=""/>
                         <Typography variant="h6" color="inherit" noWrap>
                             Play Tech Gallery
                         </Typography>
@@ -134,7 +97,7 @@ export default class HomePage extends React.Component {
                                 <Grid container spacing={2} justify="center">
                                     <Grid item>
                                         <img
-                                            src={this.state.image || 'http://vlabs.iitb.ac.in/vlabs-dev/labs_local/machine_learning/labs/exp11/images/no_img.png'}
+                                            src={this.state.imagePreviewUrl || 'http://vlabs.iitb.ac.in/vlabs-dev/labs_local/machine_learning/labs/exp11/images/no_img.png'}
                                             alt="Uploaded images" height="300"
                                             width="400" className="profilePicture"/>
                                         <input type="file" onChange={this.handleImageChange} className="btn btn-info"
