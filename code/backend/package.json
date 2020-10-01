@@ -13,10 +13,12 @@
     "body-parser": "latest",
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
+    "googleapis": "^60.0.1",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
-    "cors": "^2.8.5"
+    "cors": "^2.8.5",
+    "formidable": "^1.2.2"
   }
 }
