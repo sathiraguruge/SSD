@@ -9,6 +9,7 @@
     "react": "^16.13.1",
     "react-alert-template-mui": "^1.0.7",
     "react-dom": "^16.13.1",
+    "react-image-picker": "^1.1.1",
     "react-scripts": "3.4.3"
   },
   "scripts": {

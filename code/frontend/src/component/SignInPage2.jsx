@@ -87,7 +87,15 @@ class SignInPage2 extends React.Component {
                             <GoogleLogin
                                 clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
                                 buttonText="Sign in with Google"
+                                scope={"https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"}
                                 onSuccess={ (response) => {
+                                    localStorage.setItem('Token', JSON.stringify(response.tokenObj));
+                                    localStorage.setItem('Profile', JSON.stringify(response.profileObj));
+
+                                    // var retrievedObject = localStorage.getItem('testObject');
+                                    //
+                                    // console.log('retrievedObject: ', JSON.parse(retrievedObject));
+
                                     alert.info('Hello ' + response.profileObj.name, {
                                         onClose: () => {
                                             window.location.href = "/homepage"
