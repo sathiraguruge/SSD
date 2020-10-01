@@ -73,15 +73,19 @@ export default function Album() {
                     <CameraIcon className={classes.icon} />
                     <Typography variant="h6" color="inherit" noWrap>
                         Play Tech Gallery
+                    </Typography>
+
+                    <div style={{
+                        display: 'flex', justifyContent: 'right', alignSelf: 'flex-end'
+                    }}>
                         <GoogleLogout
                             clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
                             buttonText="Logout"
                             onLogoutSuccess={() => {
                                 window.location.href = "/";
                             }}
-                        >
-                        </GoogleLogout>
-                    </Typography>
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
             <main>

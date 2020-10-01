@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -8,16 +8,16 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import GoogleLogin from "react-google-login";
-import {useAlert} from "react-alert";
+import {withAlert} from 'react-alert'
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
-import {makeStyles} from "@material-ui/core/styles";
 
-export default class SignInPage2 extends Component {
-    constructor() {
-        super();
+
+class SignInPage2 extends React.Component {
+    constructor(props) {
+        super(props);
         this.onChange = this.onChange.bind(this);
     }
 
@@ -28,45 +28,23 @@ export default class SignInPage2 extends Component {
     }
 
     render() {
-        const useStyles = makeStyles((theme) => ({
-            paper: {
-                marginTop: theme.spacing(8),
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            },
-            avatar: {
-                margin: theme.spacing(1),
-                backgroundColor: theme.palette.secondary.main,
-            },
-            form: {
-                width: '100%', // Fix IE 11 issue.
-                marginTop: theme.spacing(1),
-            },
-            submit: {
-                margin: theme.spacing(3, 0, 2),
-            },
-        }));
-        const paper = {
-            marginTop: spacing(8),
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-        }
-
-
+        const alert = this.props.alert;
         return (
             <Container component="main" maxWidth="xs">
                 <CssBaseline/>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
+                <div className="paper">
+                    <div style={{display: 'flex', justifyContent: 'center'}}>
+                        <Avatar style={{
+                            marginTop: "30px"
+                        }}>
+                            <LockOutlinedIcon/>
+                        </Avatar>
+                    </div>
 
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <form className={classes.form} noValidate>
+                    <form className="" noValidate>
                         <TextField
                             variant="outlined"
                             margin="normal"
@@ -98,21 +76,30 @@ export default class SignInPage2 extends Component {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}
+                            className=""
                         >
                             Sign In
                         </Button>
 
-                        <GoogleLogin
-                            clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
-                            buttonText="Sign in with Google"
-                            onSuccess={ () => {
-                            }}
-                            onFailure={ () => {
-                            }}
-                            cookiePolicy={'single_host_origin'}
-                            style={{  float: "none"}}
-                        />
+                        <div style={{
+                            display: 'flex', justifyContent: 'center', margin: "30px"
+                        }}>
+                            <GoogleLogin
+                                clientId="422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com"
+                                buttonText="Sign in with Google"
+                                onSuccess={ (response) => {
+                                    alert.info('Hello ' + response.profileObj.name, {
+                                        onClose: () => {
+                                            window.location.href = "/homepage"
+                                        }
+                                    })
+                                }}
+                                onFailure={() => {
+                                    alert.error('Login Failed !')
+                                }}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </div>
 
                         <Grid container>
                             <Grid item xs>
@@ -142,3 +129,5 @@ export default class SignInPage2 extends Component {
         )
     };
 }
+
+export default withAlert()(SignInPage2)
