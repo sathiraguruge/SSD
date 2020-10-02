@@ -7,9 +7,9 @@ router.post('/', (req, res) => {
         res.json(data);
     }).catch(err => {
         console.log(err);
-        if(err.status === 500){
+        if (err.status === 500) {
             res.json('Invalid Credentials')
-        }else
+        } else
             res.json(err);
     })
 });
