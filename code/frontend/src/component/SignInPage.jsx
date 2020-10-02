@@ -83,29 +83,29 @@ class SignInPage extends React.Component {
                         <div style={{
                             display: 'flex', justifyContent: 'center', margin: "30px"
                         }}>
-                        <GoogleLogin
-                            clientId="921424005912-gto8ohqq1vkihpjsjrpvbre81efhtntd.apps.googleusercontent.com"
-                            buttonText="Sign in with Google"
-                            scope={"https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"}
-                            onSuccess={ (response) => {
-                                localStorage.setItem('Token', JSON.stringify(response.tokenObj));
-                                localStorage.setItem('Profile', JSON.stringify(response.profileObj));
+                            <GoogleLogin
+                                clientId="921424005912-gto8ohqq1vkihpjsjrpvbre81efhtntd.apps.googleusercontent.com"
+                                buttonText="Sign in with Google"
+                                scope={"https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/drive.file"}
+                                onSuccess={(response) => {
+                                    localStorage.setItem('Token', JSON.stringify(response.tokenObj));
+                                    localStorage.setItem('Profile', JSON.stringify(response.profileObj));
 
-                                // var retrievedObject = localStorage.getItem('testObject');
-                                //
-                                // console.log('retrievedObject: ', JSON.parse(retrievedObject));
+                                    // var retrievedObject = localStorage.getItem('testObject');
+                                    //
+                                    // console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
-                                alert.info('Hello ' + response.profileObj.name, {
-                                    onClose: () => {
-                                        window.location.href = "/homepage"
-                                    }
-                                })
-                            }}
-                            onFailure={() => {
-                                alert.error('Login Failed !')
-                            }}
-                            cookiePolicy={'single_host_origin'}
-                        />
+                                    alert.info('Hello ' + response.profileObj.name, {
+                                        onClose: () => {
+                                            window.location.href = "/homepage"
+                                        }
+                                    })
+                                }}
+                                onFailure={() => {
+                                    alert.error('Login Failed !')
+                                }}
+                                cookiePolicy={'single_host_origin'}
+                            />
                         </div>
 
                         <Grid container>
