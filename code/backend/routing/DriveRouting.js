@@ -6,7 +6,11 @@ router.post('/', (req, res) => {
     DriveController.upload(req).then((data) => {
         res.json(data)
     }).catch(err => {
-        res.json(err);
+        console.log(err);
+        if(err.status === 500){
+            res.json('Invalid Credentials')
+        }else
+            res.json(err);
     })
 });
 

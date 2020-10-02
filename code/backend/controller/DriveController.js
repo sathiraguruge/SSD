@@ -8,12 +8,11 @@ const client_secret = credentials.web.client_secret;
 const redirect_uris = credentials.web.redirect_uris;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-
 const DriveController = function () {
     this.upload = (data) => {
         return new Promise((resolve, reject) => {
 
-            var form = new formidable.IncomingForm();
+            const form = new formidable.IncomingForm();
             form.parse(data, (err, fields, files) => {
                 if (err) {
                     reject({status: 400, message: err});
