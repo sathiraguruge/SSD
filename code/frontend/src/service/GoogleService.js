@@ -13,7 +13,7 @@ export default class GoogleService {
         data.append('file', file);
         h.Accept = 'application/json'; //if you expect JSON response
 
-        fetch('http://localhost:3000/fileUpload', {
+        fetch('http://localhost:3000/api/drive', {
             method: 'POST',
             headers: h,
             body: data
