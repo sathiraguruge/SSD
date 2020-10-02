@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 const Drive = require('./routing/DriveRouting');
@@ -33,6 +34,7 @@ app.use('/api/drive', Drive);
 //         res.send(files);
 //     });
 // });
+
 
 // app.post('/deleteFile/:id', (req, res) => {
 //     if (req.body.token == null) return res.status(400).send('Token not found');
