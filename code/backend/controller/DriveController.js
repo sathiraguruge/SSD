@@ -23,7 +23,6 @@ const DriveController = function () {
                     reject({status: 400, message: 'Token not found'});
                 }
                 oAuth2Client.setCredentials(token);
-                console.log(files.file);
                 const drive = google.drive({ version: "v3", auth: oAuth2Client });
                 const fileMetadata = {
                     name: files.file.name,
@@ -41,7 +40,6 @@ const DriveController = function () {
                     (err, file) => {
                         oAuth2Client.setCredentials(null);
                         if (err) {
-                            console.error(err);
                             reject({status: 500, message: err});
                         } else {
                             resolve({status: 200, message: 'Image Added Successfully !'});
