@@ -14,17 +14,4 @@ router.post('/', (req, res) => {
     })
 });
 
-// router.get('/', (req, res) => {
-//     DriveController.upload(req).then((data) => {
-//         res.json(data)
-//     }).catch(err => {
-//         console.log(err);
-//         if(err.status === 500){
-//             res.json('Invalid Credentials')
-//         }else
-//             res.json(err);
-//     })
-// });
-
-
 module.exports = router;
