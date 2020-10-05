@@ -90,11 +90,6 @@ class SignInPage extends React.Component {
                                 onSuccess={(response) => {
                                     localStorage.setItem('Token', JSON.stringify(response.tokenObj));
                                     localStorage.setItem('Profile', JSON.stringify(response.profileObj));
-
-                                    // var retrievedObject = localStorage.getItem('testObject');
-                                    //
-                                    // console.log('retrievedObject: ', JSON.parse(retrievedObject));
-
                                     alert.info('Hello ' + response.profileObj.name, {
                                         onClose: () => {
                                             window.location.href = "/homepage"
