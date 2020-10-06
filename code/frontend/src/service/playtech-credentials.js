@@ -1,7 +1,8 @@
+//add relevant imports and libraries
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
     /*
     From the user take just the id (to minimize the cookie size) and just pass the id of the user
     to the done callback
@@ -10,7 +11,7 @@ passport.serializeUser(function(user, done) {
     done(null, user);
 });
 
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
     /*
     Instead of user this function usually recives the id
     then you use the id to select the user from the db and pass the user obj to the done callback
@@ -20,11 +21,14 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new GoogleStrategy({
-        clientID: "422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com",
-        clientSecret: "LJj5GLJ3x71rx6guUn52y8FM",
-        callbackURL: "http://localhost:3000/google/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
+    //define client ID
+    clientID: "422221100383-ekq8mird13g7g6cjlu6l7kpnmi8su9ij.apps.googleusercontent.com",
+    //define client Secret
+    clientSecret: "LJj5GLJ3x71rx6guUn52y8FM",
+    //define callback URL
+    callbackURL: "http://localhost:3000/google/callback"
+},
+    function (accessToken, refreshToken, profile, done) {
         /*
          use the profile info (mainly profile id) to check if the user is registerd in ur db
          If yes select the user and pass him to the done callback
