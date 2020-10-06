@@ -1,15 +1,17 @@
+//Add the relevant imports
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import CameraIcon from "@material-ui/icons/PhotoCamera";
 import Typography from "@material-ui/core/Typography";
-import {GoogleLogout} from "react-google-login";
+import { GoogleLogout } from "react-google-login";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import GoogleService from '../service/GoogleService'
 
+//initialize HomePage component
 export default class HomePage extends React.Component {
     constructor(props) {
         super(props);
@@ -22,21 +24,25 @@ export default class HomePage extends React.Component {
         this.handleUpload = this.handleUpload.bind(this);
         this.handleImageChange = this.handleImageChange.bind(this);
 
+        //object creation for authentication of Google Data using GoogleService class 
         this.googleService = new GoogleService();
     }
 
+    //on change state
     onChange(e) {
         this.setState({
             [e.target.name]: e.target.value
         });
     }
 
+    //handle change state
     handleChange(e) {
         this.setState({
             image: URL.createObjectURL(e.target.files[0])
         })
     };
 
+    //handle image state
     handleImageChange(e) {
         e.preventDefault();
         let reader = new FileReader();
@@ -51,20 +57,23 @@ export default class HomePage extends React.Component {
     }
 
 
+    //handle upload state
     handleUpload(e) {
         if (this.state.image != null) {
             this.googleService.uploadFile(this.state.image)
         }
     };
 
+    //render component
     render() {
+        //get access to profile through local storage
         const profile = JSON.parse(localStorage.getItem('Profile'));
         return (
             <React.Fragment>
-                <CssBaseline/>
+                <CssBaseline />
                 <AppBar position="relative">
                     <Toolbar>
-                        <CameraIcon className=""/>
+                        <CameraIcon className="" />
                         <Typography variant="h6" color="inherit" noWrap>
                             Play Tech Gallery
                         </Typography>
@@ -72,7 +81,9 @@ export default class HomePage extends React.Component {
                         <div style={{
                             display: 'flex', justifyContent: 'right', alignSelf: 'flex-end'
                         }}>
+                            {/* Google Logout component */}
                             <GoogleLogout
+                                //initialize client id from google developer console
                                 clientId="921424005912-gto8ohqq1vkihpjsjrpvbre81efhtntd.apps.googleusercontent.com"
                                 buttonText="Logout"
                                 onLogoutSuccess={() => {
@@ -97,11 +108,12 @@ export default class HomePage extends React.Component {
                                 <Grid container spacing={2} justify="center">
                                     <Grid item>
                                         <img
+                                            //getting the url of uploaded image or else a default url
                                             src={this.state.imagePreviewUrl || 'http://vlabs.iitb.ac.in/vlabs-dev/labs_local/machine_learning/labs/exp11/images/no_img.png'}
                                             alt="Uploaded images" height="300"
-                                            width="400" className="profilePicture"/>
+                                            width="400" className="profilePicture" />
                                         <input type="file" onChange={this.handleImageChange} className="btn btn-info"
-                                               style={{marginLeft: "30px"}} accept="image/*"/>
+                                            style={{ marginLeft: "30px" }} accept="image/*" />
                                         <Button variant="contained" color="primary" onClick={() => {
                                             this.handleUpload()
                                         }}>
